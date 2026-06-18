@@ -91,7 +91,7 @@ model = FastLanguageModel.get_peft_model(
 ```
 `unsloth` за меня посчитал сколько параметров обучалось: `Trainable parameters = 128,450,560 of 14,896,757,760 (0.86% trained)`
 
-А основные параметры обучения представлены ниже; эффективный `batch_size` получился 16 это идеально помещалось в 48Gi RTX A6000 с небольшим запасом.
+А основные настройки обучения представлены ниже; эффективный `batch_size` получился 16 это идеально помещалось в 48Gi RTX A6000 с небольшим запасом.
 ```python
 per_device_train_batch_size=4,
 gradient_accumulation_steps=4,
@@ -146,7 +146,7 @@ def reward_rouge_score(completions, answer, **kwargs):
     return [score for score in results["rouge1"]]
 ```
 
-1. Штраф за слишком длинный или пустой ответ
+3. Штраф за слишком длинный или пустой ответ
 ```python
 def reward_len_constraint(completions, **kwargs):
     return [0.5 if 0 < len(c) < 500 else -1.0 for c in completions]
